@@ -12,22 +12,7 @@
  */
 package org.openhab.binding.amazonechocontrol.internal.handler;
 
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.BINDING_ID;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.CHANNEL_LIGHT_BRIGHTNESS;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.CHANNEL_LIGHT_COLOR;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.CHANNEL_LIGHT_WHITE_TEMPERATURE;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.CHANNEL_STATE;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_PROPERTY_LIGHT_ENTITY_ID;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_PROPERTY_LIGHT_SUBDEVICE;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_TURN_OFF;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_TURN_ON;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.INTERFACE_BRIGHTNESS;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.INTERFACE_COLOR;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.INTERFACE_COLOR_TEMPERATURE;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.INTERFACE_POWER;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.ITEM_TYPE_DIMMER;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.ITEM_TYPE_STRING;
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.ITEM_TYPE_SWITCH;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -198,6 +183,7 @@ public class SmartHomeDeviceHandler extends BaseThingHandler {
         if (accountHandler == null) {
             return;
         }
+
         try {
             Map<String, String> props = this.thing.getProperties();
             String entityId = props.get(DEVICE_PROPERTY_LIGHT_ENTITY_ID);
@@ -256,25 +242,16 @@ public class SmartHomeDeviceHandler extends BaseThingHandler {
                 }
             }
             if (channelId.equals(CHANNEL_LIGHT_BRIGHTNESS)) {
-                Float percentage = null;
                 if (command instanceof PercentType) {
-                    percentage = ((PercentType) command).floatValue() / 100;
-                }
-                if (command instanceof OnOffType) {
-                    if (command.equals(OnOffType.ON)) {
-                        percentage = 100f;
-                    } else {
-                        percentage = 0f;
-                    }
-                }
-                if (percentage != null) {
                     connection = accountHandler.findConnection();
                     for (Map.Entry<String, String> entry : props.entrySet()) {
                         if (entry.getKey().contains(DEVICE_PROPERTY_LIGHT_SUBDEVICE)) {
-                            connection.smartHomeCommand(entry.getValue(), "setBrightness", null, percentage);
+                            connection.smartHomeCommand(entry.getValue(), "setBrightness", null,
+                                    ((PercentType) command).floatValue() / 100);
                         } else if (entry.getKey().contains(DEVICE_PROPERTY_LIGHT_ENTITY_ID)
                                 && !entry.getKey().contains(DEVICE_PROPERTY_LIGHT_SUBDEVICE)) {
-                            connection.smartHomeCommand(entityId, "setBrightness", null, percentage);
+                            connection.smartHomeCommand(entityId, "setBrightness", null,
+                                    ((PercentType) command).floatValue() / 100);
                         }
                     }
                 }

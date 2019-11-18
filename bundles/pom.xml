@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -17,7 +17,8 @@
 
   <modules>
     <!-- io -->
-    <module>org.openhab.io.azureiothub</module>
+    <!-- temporarily disabled due to malfunction -->
+    <!--module>org.openhab.io.azureiothub</module-->
     <module>org.openhab.io.homekit</module>
     <module>org.openhab.io.hueemulation</module>
     <module>org.openhab.io.imperihome</module>
@@ -44,6 +45,7 @@
     <module>org.openhab.binding.allplay</module>
     <module>org.openhab.binding.amazondashbutton</module>
     <module>org.openhab.binding.amazonechocontrol</module>
+    <module>org.openhab.binding.ambientweather</module>
     <module>org.openhab.binding.astro</module>
     <module>org.openhab.binding.atlona</module>
     <module>org.openhab.binding.autelis</module>
@@ -68,16 +70,19 @@
     <module>org.openhab.binding.digitalstrom</module>
     <module>org.openhab.binding.dlinksmarthome</module>
     <module>org.openhab.binding.dmx</module>
+    <module>org.openhab.binding.doorbird</module>
     <module>org.openhab.binding.dscalarm</module>
     <module>org.openhab.binding.dsmr</module>
     <module>org.openhab.binding.dwdunwetter</module>
     <module>org.openhab.binding.elerotransmitterstick</module>
     <module>org.openhab.binding.enocean</module>
+    <module>org.openhab.binding.enturno</module>
     <module>org.openhab.binding.evohome</module>
     <module>org.openhab.binding.exec</module>
     <module>org.openhab.binding.feed</module>
     <module>org.openhab.binding.feican</module>
     <module>org.openhab.binding.folding</module>
+    <module>org.openhab.binding.foobot</module>
     <module>org.openhab.binding.freebox</module>
     <module>org.openhab.binding.fronius</module>
     <module>org.openhab.binding.fsinternetradio</module>
@@ -90,9 +95,12 @@
     <module>org.openhab.binding.hdanywhere</module>
     <module>org.openhab.binding.hdpowerview</module>
     <module>org.openhab.binding.helios</module>
+    <module>org.openhab.binding.heos</module>
     <module>org.openhab.binding.homematic</module>
+    <module>org.openhab.binding.hpprinter</module>
     <module>org.openhab.binding.hue</module>
     <module>org.openhab.binding.hyperion</module>
+    <module>org.openhab.binding.iaqualink</module>
     <module>org.openhab.binding.icloud</module>
     <module>org.openhab.binding.ihc</module>
     <module>org.openhab.binding.innogysmarthome</module>
@@ -110,6 +118,7 @@
     <module>org.openhab.binding.lgtvserial</module>
     <module>org.openhab.binding.lgwebos</module>
     <module>org.openhab.binding.lifx</module>
+    <module>org.openhab.binding.linuxinput</module>
     <module>org.openhab.binding.lirc</module>
     <module>org.openhab.binding.logreader</module>
     <module>org.openhab.binding.loxone</module>
@@ -132,34 +141,43 @@
     <module>org.openhab.binding.nanoleaf</module>
     <module>org.openhab.binding.neato</module>
     <module>org.openhab.binding.neeo</module>
+    <module>org.openhab.binding.neohub</module>
     <module>org.openhab.binding.nest</module>
     <module>org.openhab.binding.netatmo</module>
     <module>org.openhab.binding.network</module>
+    <module>org.openhab.binding.networkupstools</module>
     <module>org.openhab.binding.nibeheatpump</module>
     <module>org.openhab.binding.nibeuplink</module>
+    <module>org.openhab.binding.nikobus</module>
     <module>org.openhab.binding.nikohomecontrol</module>
     <module>org.openhab.binding.ntp</module>
     <module>org.openhab.binding.nuki</module>
     <module>org.openhab.binding.oceanic</module>
+    <module>org.openhab.binding.omnikinverter</module>
     <module>org.openhab.binding.onebusaway</module>
     <module>org.openhab.binding.onewiregpio</module>
     <module>org.openhab.binding.onewire</module>
     <module>org.openhab.binding.onkyo</module>
+    <module>org.openhab.binding.opengarage</module>
     <module>org.openhab.binding.opensprinkler</module>
     <module>org.openhab.binding.openuv</module>
     <module>org.openhab.binding.openweathermap</module>
     <module>org.openhab.binding.orvibo</module>
+    <module>org.openhab.binding.paradoxalarm</module>
     <module>org.openhab.binding.pentair</module>
     <module>org.openhab.binding.phc</module>
     <module>org.openhab.binding.pioneeravr</module>
+    <module>org.openhab.binding.pjlinkdevice</module>
     <module>org.openhab.binding.plclogo</module>
     <module>org.openhab.binding.plugwise</module>
     <module>org.openhab.binding.powermax</module>
     <module>org.openhab.binding.pulseaudio</module>
+    <module>org.openhab.binding.pushbullet</module>
     <module>org.openhab.binding.regoheatpump</module>
     <module>org.openhab.binding.rfxcom</module>
     <module>org.openhab.binding.rme</module>
     <module>org.openhab.binding.robonect</module>
+    <module>org.openhab.binding.rotel</module>
     <module>org.openhab.binding.rotelra1x</module>
     <module>org.openhab.binding.russound</module>
     <module>org.openhab.binding.samsungtv</module>
@@ -168,20 +186,25 @@
     <module>org.openhab.binding.sensebox</module>
     <module>org.openhab.binding.serialbutton</module>
     <module>org.openhab.binding.silvercrestwifisocket</module>
+    <module>org.openhab.binding.siemensrds</module>
+    <module>org.openhab.binding.sinope</module>
     <module>org.openhab.binding.sleepiq</module>
     <module>org.openhab.binding.smaenergymeter</module>
     <module>org.openhab.binding.smartmeter</module>
+    <module>org.openhab.binding.snmp</module>
     <module>org.openhab.binding.solaredge</module>
     <module>org.openhab.binding.solarlog</module>
     <module>org.openhab.binding.somfytahoma</module>
     <module>org.openhab.binding.sonos</module>
     <module>org.openhab.binding.sonyaudio</module>
+    <module>org.openhab.binding.sonyprojector</module>
     <module>org.openhab.binding.spotify</module>
     <module>org.openhab.binding.squeezebox</module>
     <module>org.openhab.binding.synopanalyzer</module>
     <module>org.openhab.binding.systeminfo</module>
     <module>org.openhab.binding.tado</module>
     <module>org.openhab.binding.tankerkoenig</module>
+    <module>org.openhab.binding.telegram</module>    
     <module>org.openhab.binding.tellstick</module>
     <module>org.openhab.binding.tesla</module>
     <module>org.openhab.binding.toon</module>
@@ -190,6 +213,7 @@
     <module>org.openhab.binding.unifi</module>
     <module>org.openhab.binding.urtsi</module>
     <module>org.openhab.binding.valloxmv</module>
+    <module>org.openhab.binding.vektiva</module>
     <module>org.openhab.binding.velbus</module>
     <module>org.openhab.binding.vitotronic</module>
     <module>org.openhab.binding.volvooncall</module>
@@ -246,8 +270,8 @@
       <optional>true</optional>
       <exclusions>
         <exclusion>
-            <groupId>*</groupId>
-            <artifactId>*</artifactId>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -261,6 +285,10 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <properties>
+    <dep.noembedding></dep.noembedding>
+  </properties>
 
   <build>
     <pluginManagement>
@@ -330,6 +358,7 @@
         </plugin>
       </plugins>
     </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
@@ -351,7 +380,99 @@
         <groupId>org.apache.karaf.tooling</groupId>
         <artifactId>karaf-maven-plugin</artifactId>
       </plugin>
+      <!-- embed compile time dependencies by unpacking -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.1.1</version>
+        <executions>
+          <execution>
+            <id>embed-dependencies</id>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <includeScope>runtime</includeScope>
+              <includeTypes>jar</includeTypes>
+              <excludeGroupIds>javax.activation,org.apache.karaf.features</excludeGroupIds>
+              <excludeArtifactIds>${dep.noembedding}</excludeArtifactIds>
+              <outputDirectory>${project.build.directory}/classes</outputDirectory>
+              <overWriteReleases>true</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <excludeTransitive>true</excludeTransitive>
+              <type>jar</type>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- remove unused classes / shrink jar -->
+    <profile>
+      <id>shrink-bundle</id>
+      <activation>
+        <file>
+          <exists>shrinkBundle.profile</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.wvengen</groupId>
+            <artifactId>proguard-maven-plugin</artifactId>
+            <version>2.1.1</version>
+            <executions>
+              <execution>
+                <id>shrink-bundle</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>proguard</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <obfuscate>false</obfuscate>
+              <injarNotExistsSkip>true</injarNotExistsSkip>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <libs>
+                <lib>${java.home}/lib/rt.jar</lib>
+              </libs>
+              <options>
+                <option>-dontwarn</option>
+                <option>-dontnote</option>
+                <option>-keep,includedescriptorclasses public class org.openhab.** { *; }</option>
+                <option>-printusage ${project.build.directory}/shrink_log.txt</option>
+              </options>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <!-- suppress embedding of dependencies -->
+    <profile>
+      <id>no-embed-dependencies</id>
+      <activation>
+        <file>
+          <exists>noEmbedDependencies.profile</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>embed-dependencies</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
 </project>

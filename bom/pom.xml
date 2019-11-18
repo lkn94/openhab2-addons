@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -38,11 +38,11 @@
               </goals>
               <configuration>
                 <target>
-                  <copy file="${basedirRoot}/../../bundles/pom.xml" tofile="${basedirRoot}/../../bom/openhab-addons/pom.xml" overwrite="true"/>
+                  <copy file="${basedirRoot}/../../bundles/pom.xml" overwrite="true" tofile="${basedirRoot}/../../bom/openhab-addons/pom.xml"></copy>
                   <!-- rewrite footer -->
-                  <replaceregexp file="${basedirRoot}/../../bom/openhab-addons/pom.xml" match="/modules[\s\S]*dependencies>" replace="/dependencies>" />
+                  <replaceregexp file="${basedirRoot}/../../bom/openhab-addons/pom.xml" match="/modules[\s\S]*dependencies&gt;" replace="/dependencies&gt;"></replaceregexp>
                   <!-- rewrite header -->
-                  <replaceregexp file="${basedirRoot}/../../bom/openhab-addons/pom.xml" match="\S*parent[\s\S]*modules>\S*" replace="header" />
+                  <replaceregexp file="${basedirRoot}/../../bom/openhab-addons/pom.xml" match="\S*parent[\s\S]*modules&gt;\S*" replace="header"></replaceregexp>
                   <replace file="{basedirRoot}/../../bom/openhab-addons/pom.xml">
                     <replacetoken>header</replacetoken>
                     <replacevalue><![CDATA[<parent>
@@ -64,10 +64,10 @@
                     <replacevalue><![CDATA[<dependency>
       <groupId>org.openhab.addons.bundles</groupId>
       <artifactId>]]></replacevalue>
-                </replace>
-                <replace file="{basedirRoot}/../../bom/openhab-addons/pom.xml">
-                  <replacetoken><![CDATA[</module>]]></replacetoken>
-                  <replacevalue><![CDATA[</artifactId>
+                  </replace>
+                  <replace file="{basedirRoot}/../../bom/openhab-addons/pom.xml">
+                    <replacetoken><![CDATA[</module>]]></replacetoken>
+                    <replacevalue><![CDATA[</artifactId>
       <version>@dollar{project.version}</version>
     </dependency>]]></replacevalue>
                   </replace>

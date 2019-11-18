@@ -12,11 +12,19 @@
  */
 package org.openhab.binding.amazonechocontrol.internal.discovery;
 
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.*;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_PROPERTY_FAMILY;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_PROPERTY_FLASH_BRIEFING_PROFILE;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.DEVICE_PROPERTY_SERIAL_NUMBER;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.SUPPORTED_ECHO_THING_TYPES_UIDS;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_ECHO;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_ECHO_SHOW;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_ECHO_SPOT;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_ECHO_WHA;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_FLASH_BRIEFING_PROFILE;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
@@ -49,11 +57,11 @@ public class AmazonEchoDiscovery extends AbstractDiscoveryService implements Ext
 
     AccountHandler accountHandler;
     private final Logger logger = LoggerFactory.getLogger(AmazonEchoDiscovery.class);
-    private final HashSet<String> discoverdFlashBriefings = new HashSet<String>();
+    private final HashSet<String> discoverdFlashBriefings = new HashSet<>();
 
     @Nullable
     ScheduledFuture<?> startScanStateJob;
-    long activateTimeStamp;
+    static @Nullable Long activateTimeStamp;
 
     private @Nullable DiscoveryServiceCallback discoveryServiceCallback;
 
@@ -63,12 +71,12 @@ public class AmazonEchoDiscovery extends AbstractDiscoveryService implements Ext
     }
 
     public AmazonEchoDiscovery(AccountHandler accountHandler) {
-        super(SUPPORTED_THING_TYPES_UIDS, 10);
+        super(SUPPORTED_ECHO_THING_TYPES_UIDS, 10);
         this.accountHandler = accountHandler;
     }
 
     public void activate() {
-        activate(new Hashtable<String, @Nullable Object>());
+        activate(new HashMap<>());
     }
 
     @Override
@@ -79,7 +87,9 @@ public class AmazonEchoDiscovery extends AbstractDiscoveryService implements Ext
     @Override
     protected void startScan() {
         stopScanJob();
-        removeOlderResults(activateTimeStamp);
+        if (activateTimeStamp != null) {
+            removeOlderResults(activateTimeStamp);
+        }
 
         setDevices(accountHandler.updateDeviceList());
 
@@ -134,7 +144,9 @@ public class AmazonEchoDiscovery extends AbstractDiscoveryService implements Ext
         if (config != null) {
             modified(config);
         }
-        activateTimeStamp = new Date().getTime();
+        if (activateTimeStamp == null) {
+            activateTimeStamp = new Date().getTime();
+        }
     };
 
     synchronized void setDevices(List<Device> deviceList) {

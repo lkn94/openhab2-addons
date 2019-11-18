@@ -48,30 +48,31 @@ public class SomfyTahomaWindowHandler extends SomfyTahomaRollerShutterHandler {
             updateChannelState(channelUID);
         } else {
             String cmd = getTahomaCommand(command.toString());
-            //Check if the rollershutter is not moving
-            String executionId = getCurrentExecutions();
-            if (executionId != null) {
-                //STOP command should be interpreted if rollershutter is moving
-                //otherwise do nothing
-                if (COMMAND_STOP.equals(cmd)) {
+            if (COMMAND_STOP.equals(cmd)) {
+                //Check if the window is not moving
+                String executionId = getCurrentExecutions();
+                if (executionId != null) {
+                    //STOP command should be interpreted if window is moving
+                    //otherwise do nothing
                     cancelExecution(executionId);
                 }
             } else {
-                if (!cmd.equals(COMMAND_STOP)) {
-                    String param = COMMAND_SET_CLOSURE.equals(cmd) ? "[" + command.toString() + "]" : "[]";
-                    sendCommand(cmd, param);
-                }
+                String param = COMMAND_SET_CLOSURE.equals(cmd) ? "[" + command.toString() + "]" : "[]";
+                sendCommand(cmd, param);
             }
         }
     }
 
-    private String getTahomaCommand(String command) {
+    @Override
+    protected String getTahomaCommand(String command) {
         switch (command) {
             case "OFF":
             case "DOWN":
+            case "CLOSE":
                 return COMMAND_CLOSE;
             case "ON":
             case "UP":
+            case "OPEN":
                 return COMMAND_OPEN;
             case "STOP":
                 return COMMAND_STOP;

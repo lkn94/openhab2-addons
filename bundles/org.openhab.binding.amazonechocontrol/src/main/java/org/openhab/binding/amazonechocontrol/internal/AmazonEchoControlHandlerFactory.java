@@ -12,7 +12,10 @@
  */
 package org.openhab.binding.amazonechocontrol.internal;
 
-import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.*;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.SUPPORTED_ECHO_THING_TYPES_UIDS;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.SUPPORTED_SMART_HOME_THING_TYPES_UIDS;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_ACCOUNT;
+import static org.openhab.binding.amazonechocontrol.internal.AmazonEchoControlBindingConstants.THING_TYPE_FLASH_BRIEFING_PROFILE;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -31,11 +34,11 @@ import org.eclipse.smarthome.core.thing.binding.BaseThingHandlerFactory;
 import org.eclipse.smarthome.core.thing.binding.ThingHandler;
 import org.eclipse.smarthome.core.thing.binding.ThingHandlerFactory;
 import org.openhab.binding.amazonechocontrol.internal.discovery.AmazonEchoDiscovery;
-import org.openhab.binding.amazonechocontrol.internal.discovery.SmartHomeDevicesDiscovery;
 import org.openhab.binding.amazonechocontrol.internal.handler.AccountHandler;
 import org.openhab.binding.amazonechocontrol.internal.handler.EchoHandler;
 import org.openhab.binding.amazonechocontrol.internal.handler.FlashBriefingProfileHandler;
-import org.openhab.binding.amazonechocontrol.internal.handler.SmartHomeDeviceHandler;
+import org.openhab.binding.amazonechocontrol.internal.smarthome.SmartHomeDeviceHandler;
+import org.openhab.binding.amazonechocontrol.internal.smarthome.SmartHomeDevicesDiscovery;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Component;
@@ -43,6 +46,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.http.HttpService;
+
+import com.google.gson.Gson;
 
 /**
  * The {@link AmazonEchoControlHandlerFactory} is responsible for creating things and thing
@@ -62,10 +67,13 @@ public class AmazonEchoControlHandlerFactory extends BaseThingHandlerFactory {
     StorageService storageService;
     @Nullable
     BindingServlet bindingServlet;
+    @Nullable
+    Gson gson;
 
     @Override
     public boolean supportsThingType(ThingTypeUID thingTypeUID) {
-        return SUPPORTED_THING_TYPES_UIDS.contains(thingTypeUID);
+        return SUPPORTED_ECHO_THING_TYPES_UIDS.contains(thingTypeUID)
+                || SUPPORTED_SMART_HOME_THING_TYPES_UIDS.contains(thingTypeUID);
     }
 
     @Override
@@ -99,11 +107,16 @@ public class AmazonEchoControlHandlerFactory extends BaseThingHandlerFactory {
         if (storageService == null) {
             return null;
         }
+        Gson gson = this.gson;
+        if (gson == null) {
+            gson = new Gson();
+            this.gson = gson;
+        }
 
         if (thingTypeUID.equals(THING_TYPE_ACCOUNT)) {
             Storage<String> storage = storageService.getStorage(thing.getUID().toString(),
                     String.class.getClassLoader());
-            AccountHandler bridgeHandler = new AccountHandler((Bridge) thing, httpService, storage);
+            AccountHandler bridgeHandler = new AccountHandler((Bridge) thing, httpService, storage, gson);
             registerDiscoveryService(bridgeHandler);
             BindingServlet bindingServlet = this.bindingServlet;
             if (bindingServlet != null) {
@@ -116,13 +129,11 @@ public class AmazonEchoControlHandlerFactory extends BaseThingHandlerFactory {
                     String.class.getClassLoader());
             return new FlashBriefingProfileHandler(thing, storage);
         }
-        if (thingTypeUID.equals(THING_TYPE_LIGHT) || thingTypeUID.equals(THING_TYPE_LIGHT_GROUP)) {
-            Storage<String> storage = storageService.getStorage(thing.getUID().toString(),
-                    String.class.getClassLoader());
-            return new SmartHomeDeviceHandler(thing, storage);
+        if (SUPPORTED_SMART_HOME_THING_TYPES_UIDS.contains(thingTypeUID)) {
+            return new SmartHomeDeviceHandler(thing, gson);
         }
-        if (SUPPORTED_THING_TYPES_UIDS.contains(thingTypeUID)) {
-            return new EchoHandler(thing);
+        if (SUPPORTED_ECHO_THING_TYPES_UIDS.contains(thingTypeUID)) {
+            return new EchoHandler(thing, gson);
         }
         return null;
     }
@@ -135,8 +146,8 @@ public class AmazonEchoControlHandlerFactory extends BaseThingHandlerFactory {
 
         AmazonEchoDiscovery discoveryService = new AmazonEchoDiscovery(bridgeHandler);
         discoveryService.activate();
-        this.discoveryServiceRegistrations.put(bridgeHandler.getThing().getUID(), bundleContext
-                .registerService(DiscoveryService.class.getName(), discoveryService, new Hashtable<String, Object>()));
+        this.discoveryServiceRegistrations.put(bridgeHandler.getThing().getUID(),
+                bundleContext.registerService(DiscoveryService.class.getName(), discoveryService, new Hashtable<>()));
     }
 
     @Override
